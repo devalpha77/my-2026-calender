@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Year at a Glance</title>
+    <style>
+        
+        body { 
+            background-color: #222; 
+            color: white;
+            font-family: sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px; 
+        }
+        .year-grid {
+            display: grid;
+            grid-template-columns: repeat(31, 1fr); 
+            gap: 8px;
+            max-width: 650px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: black; 
+            border-radius: 50%;
+            border: 1px solid #444; 
+        }
+       
+        .dot.today {
+            background-color: white; 
+            box-shadow: 0 0 10px white;
+        }
+
+        .footer-loader {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #111;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            border-top: 1px solid #444;
+
+               }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+              0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .day-counter {
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="year-grid" id="grid"></div>
+
+     <div class="footer-loader">
+        <div class="spinner"></div>
+        <div class="day-counter" id="counter">0/365</div>
+    </div>
+
+    <script>
+    const grid = document.getElementById('grid');
+    const counterDisplay = document.getElementById('counter');
+    
+    const now = new Date();
+    
+    const start = Date.UTC(now.getFullYear(), 0, 0);
+    const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    
+    const dayOfYear = Math.floor((todayUTC - start) / (1000 * 60 * 60 * 24));
+
+    counterDisplay.innerText = `${dayOfYear}/365`;
+
+    for (let i = 1; i <= 365; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        
+        if (i === dayOfYear) {
+            dot.classList.add('today');
+        }
+        
+        grid.appendChild(dot);
+    }
+</script>
+
+</body>
+</html>
